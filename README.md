@@ -1,6 +1,6 @@
 # vue-reactive-decorator
 
-Provides mobx6-like reactive decorator with OOP style for Vue 2 (composition-api) and Vue 3.
+Provides mobx-like reactive decorator with OOP style for Vue 2 (composition-api) and Vue 3.
 
 Supports legacy decorator syntax and stage 3 decorators proposal.
 
@@ -12,7 +12,7 @@ npm install vue-reactive-decorator --save
 
 ## Decorator Versions
 
-1. Legacy Decorator (most existing libs are using this, supported by most tools)
+### Legacy Decorator (most existing libs are using this, supported by most tools)
 
 If you are using the legacy decorator syntax(most existing libs are using this), you should add the following configuration to your `tsconfig.json`:
 
@@ -24,7 +24,7 @@ If you are using the legacy decorator syntax(most existing libs are using this),
 }
 ```
 
-2. Stage 3 Decorator Proposal (2023-05, the future es standard)
+### Stage 3 Decorator Proposal (2023-05, the future es standard)
 
 If you are using the stage 3 decorator proposal, which was supported by TypeScript 5.0, you should remove the `experimentalDecorators` option or set it to `false` from your `tsconfig.json`:
 
@@ -153,6 +153,126 @@ Object.defineProperty(order, 'price', {
   }
 });
 ```
+
+### `@observable.ref`
+
+the same as `@observable`.
+
+### `@observable.reactive`
+
+Marks a property as reactive.
+
+When you call `makeObservable(this)` ,the getter and setter of the property will be replaced with reactive proxy, and the property will be reactive.
+
+```typescript
+import { observable } from 'vue-reactive-decorator';
+
+class Order {
+  @observable.reactive
+  items = {
+    apple: 0,
+    orange: 0,
+  }
+
+  constructor() {
+    makeObservable(this)
+  }
+}
+const order = new Order()
+const items = { ...order.items }
+
+watchSyncEffect(() => {
+  items.apple = order.items.apple
+})
+watchSyncEffect(() => {
+  items.orange = order.items.orange
+})
+
+order.items.apple++
+
+console.log(items.apple) // 1
+```
+
+**Notice**: The same as `reactive` in vue, it will lose reactivity when the marked property is assigned to a new object.
+
+### `@observable.shallowRef`
+
+Marks a property as shallowRef.
+
+When you call `makeObservable(this)` ,the getter and setter of the property will be replaced shallowRef, and the property will be reactive.
+
+The behavior is same as `shallowRef` in vue. Unlike `ref()`, the inner value of a shallow ref is stored and exposed as-is, and will not be made deeply reactive. Only the top-level access is reactive.
+
+```typescript
+import { observable } from 'vue-reactive-decorator';
+
+class Order {
+  @observable.shallowRef
+  items = {
+    apple: 0,
+    orange: 0,
+  }
+
+  constructor() {
+    makeObservable(this)
+  }
+}
+
+const order = new Order()
+let items = { ...order.items }
+
+watchSyncEffect(() => {
+  items = order.items
+})
+
+order.items = { apple: 1, orange: 1 }
+
+console.log(items) // { apple: 1, orange: 1 }
+```
+
+### `@observable.shallowReactive`
+
+Marks a property as shallowReactive.
+
+When you call `makeObservable(this)` ,the getter and setter of the property will be replaced shallowReactive, and the property will be reactive.
+
+The behavior is same as `shallowReactive` in vue. Unlike `reactive()`, there is no deep conversion: only root-level properties are reactive for a shallow reactive object. Property values are stored and exposed as-is - this also means properties with ref values will **not** be automatically unwrapped.
+
+```typescript
+import { observable } from 'vue-reactive-decorator';
+
+class Order {
+  @observable.shallowReactive
+  items = {
+    apple: 0,
+    orange: 0,
+    // obj: {
+    //   a: 1,
+    //   b: 2
+    // } // the deep-level properties are not reactive
+  }
+
+  constructor() {
+    makeObservable(this)
+  }
+}
+
+const order = new Order()
+let items = { ...order.items }
+
+watchSyncEffect(() => {
+  items.apple = order.items.apple
+})
+
+watchSyncEffect(() => {
+  items.orange = order.items.orange
+})
+
+order.items.apple++
+console.log(items.apple) // 1
+```
+
+**Notice**: The same as `shallowReactive` in vue, it will lose reactivity when the marked property is assigned to a new object.
 
 ### `@computed`
 
