@@ -308,7 +308,7 @@ Marks a method as a watcher.
 The behavior is similar to `watchEffect` in vue. When the properties used in the method are changed, the method will be called.
 
 ```typescript
-import { watchEffect } from 'vue-reactive-decorator';
+import { watchEffect, nextTick } from 'vue-reactive-decorator';
 
 class Order {
   @observable
@@ -327,7 +327,54 @@ class Order {
   constructor() {
     makeObservable(this);
   }
+
+  const order = new Order();
+
+  order.price = 10;
+  order.quantity = 2;
+
+  console.log(order.total); // 0
+
+  nextTick(() => { // wait for the effect to be called
+    console.log(order.total); // 20
+  });
 }
+```
+
+### `@watchSyncEffect`
+
+Marks a method as a synchronous watcher.
+
+The behavior is similar to `watchSyncEffect` in vue. When the properties used in the method are changed, the method will be called.
+
+```typescript
+import { watchSyncEffect } from 'vue-reactive-decorator';
+
+class Order {
+  @observable
+  price = 0;
+
+  @observable
+  quantity = 0;
+
+  total = 0;
+
+  @watchSyncEffect
+  effect() {
+    this.total = this.price * this.quantity;
+  }
+
+  constructor() {
+    makeObservable(this);
+  }
+}
+
+const order = new Order();
+
+order.price = 10;
+order.quantity = 2;
+
+console.log(order.total); // 20
 ```
 
 ## Thanks
