@@ -26,7 +26,7 @@ If you are using the legacy decorator syntax(most existing libs are using this),
 
 ### Stage 3 Decorator Proposal (2023-05, the future es standard)
 
-If you are using the stage 3 decorator proposal, which was supported by TypeScript 5.0, you should remove the `experimentalDecorators` option or set it to `false` from your `tsconfig.json`:
+If you are using the stage 3 decorator proposal, which was supported by TypeScript 5.0 and latest build tool (version requirements are listed below), you should remove the `experimentalDecorators` option or set it to `false` from your `tsconfig.json`:
 
 ```json
 {
@@ -39,9 +39,20 @@ If you are using the stage 3 decorator proposal, which was supported by TypeScri
 **Notice**: If your build tool throws an error like:
 ```bash
 [!] (plugin rpt2) RollupError: Unexpected token `@`. Expected identifier, string literal, numeric literal or [ for the computed key (Note that you need plugins to import files that are not JavaScript)
+
+[!] RollupError: src/index.js: Unexpected token `@`. Expected identifier, string literal, numeric literal or [ for the computed key
+
+X [ERROR] Transforming JavaScript decorators to the configured target environment ("es2022") is not supported yet
 ```
 
-You can try to add the flowing configuration to your `tsconfig.json`:
+Please update your bundle toolchain to the latest version, especially if you are using `stage 3 decorator proposal` or javascript project (compared to typescript project).
+
+- For `rollup`, at least `v4.19.0` is required.
+- For `esbuild`, at least `v0.21.0` is required.
+- For `vite`, at least `v5.3` is required.
+- For `rspack`, at least `v1.0.0` is required.
+
+If it still doesn't work, you can try to add the flowing configuration to your `tsconfig.json` **(note that this is not a good idea)**:
 
 ```json
 {
