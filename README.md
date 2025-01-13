@@ -43,16 +43,18 @@ If you are using the stage 3 decorator proposal, which was supported by TypeScri
 [!] RollupError: src/index.js: Unexpected token `@`. Expected identifier, string literal, numeric literal or [ for the computed key
 
 X [ERROR] Transforming JavaScript decorators to the configured target environment ("es2022") is not supported yet
+
+runtime error: Error: Decorator metadata is not defined.  // if you are using esbuild v0.21.3 to v0.21.4, you may encounter this error
 ```
 
 Please update your bundle toolchain to the latest version, especially if you are using `stage 3 decorator proposal` or javascript project (compared to typescript project).
 
-- For `rollup`, at least `v4.19.0` is required.
-- For `esbuild`, at least `v0.21.0` is required.
-- For `vite`, at least `v5.3` is required.
-- For `rspack`, at least `v1.0.0` is required.
+- For `rollup`, at least `v4.19.0` is required (if it is a javascript project).
+- For `esbuild`, at least `v0.21.5` is required.
+- For `vite`, at least `v6.0.0` is required (if you are using stage 3 decorator proposal).
+- For `rsbuild`, at least `v1.0.0` is required.
 
-If it still doesn't work, you can try to add the flowing configuration to your `tsconfig.json` **(note that this is not a good idea)**:
+If it still doesn't work, you can try to add the flowing configuration to your `tsconfig.json` **(Note that this is not a good idea. The immediate cause may be that you are using a lower version of build tool.)**:
 
 ```json
 {
