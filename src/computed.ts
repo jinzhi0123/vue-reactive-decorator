@@ -1,6 +1,6 @@
-import { computed as vComputed } from 'vue-demi'
-import { type ReactiveDecorator, createDecorator } from './decorator'
 import type { ClassGetterDecorator } from './decorator-fills'
+import { computed as vComputed } from 'vue-demi'
+import { createDecorator, type ReactiveDecorator } from './decorator'
 import { getEffectScope } from './effectScope'
 import { NOOP } from './utils'
 
@@ -22,8 +22,9 @@ function make(target: any, key: PropertyKey, descriptor: PropertyDescriptor) {
     descriptor == null
     || typeof descriptor !== 'object'
     || typeof descriptor.get !== 'function'
-  )
+  ) {
     throw new Error('computed can only be used on getter')
+  }
 
   const effectScope = getEffectScope(target)
 

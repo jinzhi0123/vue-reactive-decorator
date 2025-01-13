@@ -1,6 +1,6 @@
 import type { ReactiveDecorator } from './decorator'
-import { STORED_METADATA_KEY } from './decorator'
 import type { DecoratorsMap } from './store-prototype'
+import { STORED_METADATA_KEY } from './decorator'
 
 export function storeMetaDataByNative(value: any, context: DecoratorContext, decorator: ReactiveDecorator) {
   const metadata = context.metadata

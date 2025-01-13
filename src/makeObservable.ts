@@ -1,8 +1,6 @@
-import { STORED_ADM_KEY, asObservableObject } from './adm'
-import type { ReactiveDecorator } from './decorator'
+import { asObservableObject, STORED_ADM_KEY } from './adm'
 import { collectDecorators } from './store'
-import type { DecoratorMapEntry, DecoratorsMap } from './store-prototype'
-import { getDescriptor, ownKeys } from './utils'
+import { ownKeys } from './utils'
 
 export function makeObservable<T extends object>(target: T): T {
   const decorators = collectDecorators(target)

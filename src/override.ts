@@ -1,5 +1,5 @@
-import { type ReactiveDecorator, createDecorator } from './decorator'
 import type { ClassFieldDecorator } from './decorator-fills'
+import { createDecorator, type ReactiveDecorator } from './decorator'
 
 const OVERRIDE = 'override'
 

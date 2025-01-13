@@ -2,8 +2,6 @@
   "compilerOptions": {
     "target": "ESNext",
     "lib": ["ESNext"],
-    "useDefineForClassFields": false,
-    // "experimentalDecorators": true,
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,

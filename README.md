@@ -71,27 +71,27 @@ Put the provided reactive decorators on your class properties and call `makeObse
 **Notice**: The decorators only collect the information of the properties, you need to call `makeObservable(this)` in constructor to make the properties reactive. This is recommended to suit the new decorators proposal.
 
 ```typescript
-import { observable, computed, makeObservable } from 'vue-reactive-decorator';
 import { watchSyncEffect } from 'vue'
+import { computed, makeObservable, observable } from 'vue-reactive-decorator'
 
 class Order {
   @observable
-  price = 0;
+  price = 0
 
   @observable
-  quantity = 0;
+  quantity = 0
 
   @computed
   get total() {
-    return this.price * this.quantity;
+    return this.price * this.quantity
   }
 
   constructor() {
-    makeObservable(this);
+    makeObservable(this)
   }
 }
 
-const order = new Order();
+const order = new Order()
 
 const numbers = {
   price: order.price,
@@ -99,28 +99,27 @@ const numbers = {
   total: order.total,
 }
 
-console.log(numbers.total); // 0
-console.log(numbers.price); // 0
-console.log(numbers.quantity); // 0
+console.log(numbers.total) // 0
+console.log(numbers.price) // 0
+console.log(numbers.quantity) // 0
 
 watchSyncEffect(() => {
-  numbers.price = order.price;
-});
+  numbers.price = order.price
+})
 watchSyncEffect(() => {
-  numbers.quantity = order.quantity;
-});
+  numbers.quantity = order.quantity
+})
 watchSyncEffect(() => {
-  numbers.total = order.total;
-});
+  numbers.total = order.total
+})
 
-order.price = 10;
-console.log(numbers.price); // 10
+order.price = 10
+console.log(numbers.price) // 10
 
-order.quantity = 2;
-console.log(numbers.quantity); // 2
+order.quantity = 2
+console.log(numbers.quantity) // 2
 
-console.log(numbers.total); // 20
-
+console.log(numbers.total) // 20
 ```
 
 ## Documentation
@@ -134,14 +133,14 @@ Marks a property as observable(ref).
 When you call `makeObservable(this)` ,the getter and setter of the property will be replaced with a proxy, and the property will be reactive.
 
 ```typescript
-import { observable } from 'vue-reactive-decorator';
+import { observable } from 'vue-reactive-decorator'
 
 class Order {
   @observable
-  price = 0;
+  price = 0
 
   constructor() {
-    makeObservable(this);
+    makeObservable(this)
   }
 }
 ```
@@ -149,22 +148,22 @@ class Order {
 The inner implementation of `@observable` just like the following code:
 
 ```typescript
-import { ref } from 'vue';
+import { ref } from 'vue'
 
 const order = {
-  price:0
+  price: 0
 }
 
-const value = ref(order.price);
+const value = ref(order.price)
 
 Object.defineProperty(order, 'price', {
   get() {
-    return value.value;
+    return value.value
   },
   set(value) {
-    value.value = value;
+    value.value = value
   }
-});
+})
 ```
 
 ### `@observable.ref`
@@ -178,7 +177,7 @@ Marks a property as reactive.
 When you call `makeObservable(this)` ,the getter and setter of the property will be replaced with reactive proxy, and the property will be reactive.
 
 ```typescript
-import { observable } from 'vue-reactive-decorator';
+import { observable } from 'vue-reactive-decorator'
 
 class Order {
   @observable.reactive
@@ -217,7 +216,7 @@ When you call `makeObservable(this)` ,the getter and setter of the property will
 The behavior is same as `shallowRef` in vue. Unlike `ref()`, the inner value of a shallow ref is stored and exposed as-is, and will not be made deeply reactive. Only the top-level access is reactive.
 
 ```typescript
-import { observable } from 'vue-reactive-decorator';
+import { observable } from 'vue-reactive-decorator'
 
 class Order {
   @observable.shallowRef
@@ -252,7 +251,7 @@ When you call `makeObservable(this)` ,the getter and setter of the property will
 The behavior is same as `shallowReactive` in vue. Unlike `reactive()`, there is no deep conversion: only root-level properties are reactive for a shallow reactive object. Property values are stored and exposed as-is - this also means properties with ref values will **not** be automatically unwrapped.
 
 ```typescript
-import { observable } from 'vue-reactive-decorator';
+import { observable } from 'vue-reactive-decorator'
 
 class Order {
   @observable.shallowReactive
@@ -271,7 +270,7 @@ class Order {
 }
 
 const order = new Order()
-let items = { ...order.items }
+const items = { ...order.items }
 
 watchSyncEffect(() => {
   items.apple = order.items.apple
@@ -294,22 +293,22 @@ Marks a getter method as a computed property.
 The behavior is similar to `computed` in vue.
 
 ```typescript
-import { computed } from 'vue-reactive-decorator';
+import { computed } from 'vue-reactive-decorator'
 
 class Order {
   @observable
-  price = 0;
+  price = 0
 
   @observable
-  quantity = 0;
+  quantity = 0
 
   @computed
   get total() {
-    return this.price * this.quantity;
+    return this.price * this.quantity
   }
 
   constructor() {
-    makeObservable(this);
+    makeObservable(this)
   }
 }
 ```
@@ -321,37 +320,37 @@ Marks a method as a watcher.
 The behavior is similar to `watchEffect` in vue. When the properties used in the method are changed, the method will be called.
 
 ```typescript
-import { watchEffect, nextTick } from 'vue-reactive-decorator';
+import { nextTick, watchEffect } from 'vue-reactive-decorator'
 
 class Order {
   @observable
-  price = 0;
+  price = 0
 
   @observable
-  quantity = 0;
+  quantity = 0
 
-  total = 0;
+  total = 0
 
   @watchEffect
   effect() {
-    this.total = this.price * this.quantity;
+    this.total = this.price * this.quantity
   }
 
   constructor() {
-    makeObservable(this);
+    makeObservable(this)
   }
-
-  const order = new Order();
-
-  order.price = 10;
-  order.quantity = 2;
-
-  console.log(order.total); // 0
-
-  nextTick(() => { // wait for the effect to be called
-    console.log(order.total); // 20
-  });
 }
+
+const order = new Order()
+
+order.price = 10
+order.quantity = 2
+
+console.log(order.total) // 0
+
+nextTick(() => { // wait for the effect to be called
+  console.log(order.total) // 20
+})
 ```
 
 ### `@watchSyncEffect`
@@ -361,33 +360,33 @@ Marks a method as a synchronous watcher.
 The behavior is similar to `watchSyncEffect` in vue. When the properties used in the method are changed, the method will be called.
 
 ```typescript
-import { watchSyncEffect } from 'vue-reactive-decorator';
+import { watchSyncEffect } from 'vue-reactive-decorator'
 
 class Order {
   @observable
-  price = 0;
+  price = 0
 
   @observable
-  quantity = 0;
+  quantity = 0
 
-  total = 0;
+  total = 0
 
   @watchSyncEffect
   effect() {
-    this.total = this.price * this.quantity;
+    this.total = this.price * this.quantity
   }
 
   constructor() {
-    makeObservable(this);
+    makeObservable(this)
   }
 }
 
-const order = new Order();
+const order = new Order()
 
-order.price = 10;
-order.quantity = 2;
+order.price = 10
+order.quantity = 2
 
-console.log(order.total); // 20
+console.log(order.total) // 20
 ```
 
 ## Thanks

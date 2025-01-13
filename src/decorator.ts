@@ -1,7 +1,6 @@
 import type { Decorator } from './decorator-fills'
-import { addHiddenProp, hasProp } from './utils'
-import { storeMetaDataByPrototype } from './store-prototype'
 import { storeMetaDataByNative } from './store-native'
+import { storeMetaDataByPrototype } from './store-prototype'
 
 export const STORED_METADATA_KEY: unique symbol = Symbol('VUE_REACTIVE_DECORATOR_METADATA')
 
@@ -9,13 +8,13 @@ let DECORATOR_VERSION: '2021' | '2023' | undefined
 
 export interface ReactiveDecorator {
   decoratorType: string
-  decorate2023?(value: any, context: DecoratorContext): void
-  decorate2021?(value: any, propertyKey: string | symbol): void
-  make(
+  decorate2023?: (value: any, context: DecoratorContext) => void
+  decorate2021?: (value: any, propertyKey: string | symbol) => void
+  make: (
     target: any,
     key: PropertyKey,
     descriptor: PropertyDescriptor
-  ): any
+  ) => any
   options?: any
 }
 
@@ -55,9 +54,9 @@ export function assert20223DecoratorType(
 ) {
   if (!types.includes(context.kind)) {
     console.error(
-          `The decorator applied to '${String(context.name)}' cannot be used on a ${
-              context.kind
-          } element`,
+      `The decorator applied to '${String(context.name)}' cannot be used on a ${
+        context.kind
+      } element`,
     )
   }
 }

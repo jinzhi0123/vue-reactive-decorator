@@ -1,8 +1,8 @@
 import type { Ref, ShallowRef } from 'vue-demi'
-import { reactive, ref, shallowReactive, shallowRef } from 'vue-demi'
 import type { ReactiveDecorator } from './decorator'
-import { createDecorator } from './decorator'
 import type { ClassFieldDecorator } from './decorator-fills'
+import { reactive, ref, shallowReactive, shallowRef } from 'vue-demi'
+import { createDecorator } from './decorator'
 
 export interface IObservableFactory extends ReactiveDecorator, PropertyDecorator, ClassFieldDecorator {
   ref: ReactiveDecorator & PropertyDecorator & ClassFieldDecorator
@@ -28,8 +28,9 @@ function make(target: any, key: PropertyKey, descriptor: PropertyDescriptor, opt
   if (
     __DEV__
     && (!('value' in descriptor) || typeof descriptor.value === 'function')
-  )
+  ) {
     throw new Error(`@observable can only be used with non-function properties.`)
+  }
 
   const initialValue = descriptor.value
 

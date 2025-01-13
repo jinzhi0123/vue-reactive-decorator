@@ -1,7 +1,7 @@
-import { watchEffect as vWatchEffect, watchSyncEffect as vWatchSyncEffect } from 'vue-demi'
 import type { ReactiveDecorator } from './decorator'
-import { createDecorator } from './decorator'
 import type { ClassMethodDecorator } from './decorator-fills'
+import { watchEffect as vWatchEffect, watchSyncEffect as vWatchSyncEffect } from 'vue-demi'
+import { createDecorator } from './decorator'
 import { getEffectScope } from './effectScope'
 
 const WATCH_EFFECT = 'watchEffect'
@@ -26,8 +26,9 @@ function make(target: any, key: PropertyKey, descriptor: PropertyDescriptor, opt
   if (
     __DEV__
     && (!('value' in descriptor) || typeof descriptor.value !== 'function')
-  )
+  ) {
     throw new Error(`@watchEffect can only be used with methods.`)
+  }
 
   const effectScope = getEffectScope(target)
 

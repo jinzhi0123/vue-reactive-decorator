@@ -5,10 +5,10 @@ describe('computed decorator', () => {
   it('updates the computed properties', () => {
     class Calculator {
       @observable
-        a = 0
+      a = 0
 
       @observable
-        b = 0
+      b = 0
 
       @computed
       get result() {
@@ -43,7 +43,7 @@ describe('computed decorator', () => {
     class Calculator {
       // @ts-expect-error Unable to resolve signature of property decorator when called as an expression
       @computed
-        a = 0
+      a = 0
 
       constructor() {
         makeObservable(this)
