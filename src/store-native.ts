@@ -11,7 +11,6 @@ export function storeMetaDataByNative(value: any, context: DecoratorContext, dec
   }
 
   if (!hasProp(metadata, STORED_METADATA_KEY)) {
-    console.log('add')
     addProp(metadata, STORED_METADATA_KEY, {})
   }
 
