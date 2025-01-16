@@ -1,12 +1,13 @@
 import type { ReactiveDecorator } from './decorator'
 import type { ClassMethodDecorator } from './decorator-fills'
 import { watchEffect as vWatchEffect, watchSyncEffect as vWatchSyncEffect } from 'vue-demi'
+import { createDecoratorTypeChecker } from './adm'
 import { createDecorator } from './decorator'
 import { getEffectScope } from './effectScope'
 
 const WATCH_EFFECT = 'watchEffect'
 
-const WATCH_SYNC_EFFECT = 'watchSyncEffect'
+const WATCH_SYNC_EFFECT = 'watchEffect.sync'
 
 // can only be used on class methods
 
@@ -56,4 +57,8 @@ export const watchSyncEffect = createDecorator<ClassMethodDecorator>(
     WATCH_SYNC_EFFECT,
     { sync: true },
   ),
+)
+
+export const isWatchEffect = createDecoratorTypeChecker(
+  (decorator: ReactiveDecorator) => decorator.decoratorType.match(/^watchEffect/) !== null,
 )
