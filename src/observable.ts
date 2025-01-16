@@ -2,6 +2,7 @@ import type { Ref, ShallowRef } from 'vue-demi'
 import type { ReactiveDecorator } from './decorator'
 import type { ClassFieldDecorator } from './decorator-fills'
 import { reactive, ref, shallowReactive, shallowRef } from 'vue-demi'
+import { createDecoratorTypeChecker } from './adm'
 import { createDecorator } from './decorator'
 
 export interface IObservableFactory extends ReactiveDecorator, PropertyDecorator, ClassFieldDecorator {
@@ -89,3 +90,29 @@ const observableFactories: IObservableFactory = {
 } as any
 
 export const observable: IObservableFactory = Object.assign(_observable, observableFactories)
+
+/*
+Considering two schemes:
+1. Using a function to create decorator type checkers for each decorator type.
+2. Code respectively for each decorator type
+
+export function isObservable(decorator: ReactiveDecorator): boolean
+export function isObservable<T extends object>(target: T, key: keyof T): boolean
+
+export function isObservable<T extends object>(arg1: ReactiveDecorator | T, arg2?: keyof T): boolean {
+  if (isReactiveDecorator(arg1)) {
+    return arg1.decoratorType === 'observable'
+  }
+  if (arg2 !== undefined) {
+    const [target, key] = [arg1, arg2]
+    const records = getAdministration(target)
+    const decorator = records[key]?.decorator
+    return decorator ? isObservable(decorator) : false
+  }
+
+  return false
+}
+*/
+export const isObservable = createDecoratorTypeChecker(
+  (decorator: ReactiveDecorator) => decorator.decoratorType.match(/^observable/) !== null,
+)

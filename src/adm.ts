@@ -1,4 +1,4 @@
-import type { ReactiveDecorator } from './decorator'
+import { isReactiveDecorator, type ReactiveDecorator } from './decorator'
 import { collectDecorators } from './store'
 import { addHiddenProp, getDescriptor, hasProp } from './utils'
 
@@ -88,4 +88,30 @@ export function getAdministration(target: any): Record<
     addHiddenProp(target, STORED_ADM_KEY, {})
 
   return target[STORED_ADM_KEY]
+}
+
+// isWatchEffect
+// isObservable
+// isComputed
+
+export function createDecoratorTypeChecker(
+  checker: (decorator: ReactiveDecorator) => boolean,
+): {
+    (decorator: ReactiveDecorator): boolean
+    <T extends object>(target: T, key: keyof T): boolean
+  } {
+  function checkHandle<T extends object>(arg1: ReactiveDecorator | T, arg2?: keyof T): boolean {
+    if (isReactiveDecorator(arg1)) {
+      return checker(arg1)
+    }
+    if (arg2 !== undefined) {
+      const [target, key] = [arg1, arg2]
+      const records = getAdministration(target)
+      const decorator = records[key]?.decorator
+      return checkHandle(decorator)
+    }
+    return false
+  }
+
+  return checkHandle
 }

@@ -1,8 +1,7 @@
 import { isReactive, watchSyncEffect } from 'vue-demi'
-import { makeObservable, observable } from '../src'
+import { computed, isObservable, makeObservable, observable } from '../src'
 
 describe('observable decorator', () => {
-  globalThis.__DEV__ = true
   it('updates the observable properties', () => {
     class Calculator {
       @observable
@@ -393,5 +392,42 @@ describe('observable.shallowReactive decorator', () => {
       apple: 0,
       orange: 0,
     })
+  })
+})
+
+describe('isObservable', () => {
+  class Order {
+    @observable
+    price = 0
+
+    quantity = 0
+
+    @computed
+    get total() {
+      return this.price * this.quantity
+    }
+
+    constructor() {
+      makeObservable(this)
+    }
+  }
+
+  const order = new Order()
+
+  it('should return true when the decorator is observable', () => {
+    expect(isObservable(observable)).toBe(true)
+  })
+
+  it('should return false when the decorator is not observable', () => {
+    expect(isObservable(computed)).toBe(false)
+  })
+
+  it('should return true when the key in the object is observable', () => {
+    expect(isObservable(order, 'price')).toBe(true)
+  })
+
+  it('should return false when the key in the object is not observable', () => {
+    expect(isObservable(order, 'quantity')).toBe(false)
+    expect(isObservable(order, 'total')).toBe(false)
   })
 })

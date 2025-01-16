@@ -1,14 +1,15 @@
 import type { ClassGetterDecorator } from './decorator-fills'
 import { computed as vComputed } from 'vue-demi'
+import { createDecoratorTypeChecker } from './adm'
 import { createDecorator, type ReactiveDecorator } from './decorator'
 import { getEffectScope } from './effectScope'
 import { NOOP } from './utils'
 
 const COMPUTED = 'computed'
 
-export function isComputed(decorator: ReactiveDecorator): boolean {
-  return decorator.decoratorType === COMPUTED
-}
+export const isComputed = createDecoratorTypeChecker(
+  (decorator: ReactiveDecorator) => decorator.decoratorType === COMPUTED,
+)
 
 function make(target: any, key: PropertyKey, descriptor: PropertyDescriptor) {
   /**

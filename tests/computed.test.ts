@@ -1,5 +1,5 @@
 import { watchSyncEffect } from 'vue-demi'
-import { computed, makeObservable, observable } from '../src'
+import { computed, isComputed, makeObservable, observable } from '../src'
 
 describe('computed decorator', () => {
   it('updates the computed properties', () => {
@@ -51,5 +51,45 @@ describe('computed decorator', () => {
     }
 
     expect(() => new Calculator()).toThrow('computed can only be used on getter')
+  })
+})
+
+describe('isComputed', () => {
+  class Calculator {
+    @observable
+    a = 0
+
+    @observable
+    b = 0
+
+    c = 0
+
+    @computed
+    get result() {
+      return this.a + this.b
+    }
+
+    constructor() {
+      makeObservable(this)
+    }
+  }
+
+  const calculator = new Calculator()
+
+  it('should return true when the decorator is computed', () => {
+    expect(isComputed(computed)).toBe(true)
+  })
+
+  it('should return false when the decorator is not computed', () => {
+    expect(isComputed(observable)).toBe(false)
+  })
+
+  it('should return true when the key in the object is observable', () => {
+    expect(isComputed(calculator, 'result')).toBe(true)
+  })
+
+  it('should return false when the key in the object is not observable', () => {
+    expect(isComputed(calculator, 'a')).toBe(false)
+    expect(isComputed(calculator, 'c')).toBe(false)
   })
 })

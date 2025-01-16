@@ -13,7 +13,7 @@ export interface ReactiveDecorator {
   make: (
     target: any,
     key: PropertyKey,
-    descriptor: PropertyDescriptor
+    descriptor: PropertyDescriptor,
   ) => any
   options?: any
 }
@@ -40,7 +40,7 @@ export function createDecorator<D extends Decorator = Decorator>(
   return Object.assign(_decorator, decorator) as any
 }
 
-export function isReactiveDecorator(thing: any) {
+export function isReactiveDecorator(thing: any): thing is ReactiveDecorator {
   return (
     thing != null
     && thing instanceof Object
