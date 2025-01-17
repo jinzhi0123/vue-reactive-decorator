@@ -389,6 +389,101 @@ order.quantity = 2
 console.log(order.total) // 20
 ```
 
+### `@watch`
+
+Marks a method as a watcher callback.
+
+The behavior is similar to `watch` in vue. When the observable properties are changed, the method will be called.
+
+type definition:
+
+```typescript
+export function watch<
+  TTarget extends object,
+  TKey extends keyof TTarget,
+  TValue = TTarget[TKey],
+  TCallback extends WatchCallback<TValue> = WatchCallback<TValue>,
+>(source: TKey, options?: WatchOptions): ClassMethodDecorator<TTarget, TCallback>
+
+export function watch<
+  TTarget extends object,
+  TValue,
+  TCallback extends WatchCallback<TValue> = WatchCallback<TValue>,
+>(source: ((this: TTarget) => TValue), options?: WatchOptions): ClassMethodDecorator<TTarget, TCallback>
+```
+
+Parameters:
+
+1. `source`: the property of the class or getter method to watch.
+2. `options`: the options of the watcher the same as `watch` in vue.
+
+If you want to watch a observable property of the class, you can use the following code:
+
+```typescript
+import { watch } from 'vue-reactive-decorator'
+
+class Order {
+  @observable
+  price = 10
+
+  @observable
+  quantity = 0
+
+  total = 0
+
+  @watch('quantity')
+  callback(newVal: number, oldVal: number) {
+    this.total = this.price * newVal
+  }
+
+  constructor() {
+    makeObservable(this)
+  }
+}
+
+const order = new Order()
+order.quantity = 2
+
+console.log(order.total) // 20
+```
+
+**Notice**: The `@watch` decorator is type-safe, the newVal and observed property(`newVal` parameter of the callback and the `quantity` parameter of the decorator in the example) must have the same type.
+
+You can also take a getter method as the source:
+
+```typescript
+import { watch } from 'vue-reactive-decorator'
+
+class Order {
+  @observable
+  price = 10
+
+  @observable
+  quantity = 0
+
+  total = 0
+
+  @watch(function () { return this.price * this.quantity })
+  callback(newVal: number) {
+    this.total = newVal
+  }
+
+  constructor() {
+    makeObservable(this)
+  }
+}
+
+const order = new Order()
+order.quantity = 2
+order.price = 20
+
+console.log(order.total) // 40
+```
+
+**Notice**:
+- The `@watch` decorator is type-safe, the newVal and observed property(`newVal` parameter of the callback and the return type of the getter method in the example) must have the same type.
+- **The getter method must be a normal function, you can't use a arrow function because the `this` context is not bound to the class instance.**
+
 ## Thanks
 
 The project is inspired by:
