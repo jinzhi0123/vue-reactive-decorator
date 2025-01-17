@@ -12,7 +12,7 @@ describe('watch decorator', () => {
 
       total = 0
 
-      @watch<Order>(function () { return this.price * this.quantity })
+      @watch(function () { return this.price * this.quantity })
       effect(value: number) {
         this.total = value
       }
@@ -41,7 +41,9 @@ describe('watch decorator', () => {
 
       total = 0
 
-      @watch<Order>('price')
+      str = 'price'
+
+      @watch('price')
       effect(value: number) {
         this.total = value * this.quantity
       }
@@ -69,7 +71,7 @@ describe('watch decorator', () => {
 
       total = 0
 
-      @watch<Order>('total')
+      @watch('total')
       effect(value: number) {
         this.total = value
       }
@@ -82,5 +84,38 @@ describe('watch decorator', () => {
     expect(() => {
       const _order = new Order()
     }).toThrow()
+  })
+})
+
+describe('watch decorator with options', () => {
+  it('should trigger the effect method once when once is true', () => {
+    class Order {
+      @observable
+      price = 0
+
+      @observable
+      quantity = 1
+
+      total = 0
+
+      @watch('price', { once: true })
+      effect(value: number) {
+        this.total = value
+      }
+
+      constructor() {
+        makeObservable(this)
+      }
+    }
+
+    const order = new Order()
+    order.price = 10
+
+    nextTick(() => {
+      expect(order.total).toBe(10)
+      order.price = 20
+    }).then(() => {
+      expect(order.total).toBe(10)
+    })
   })
 })
