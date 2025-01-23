@@ -1,16 +1,16 @@
 import { watchSyncEffect } from 'vue-demi'
-import { computed, isComputed, makeObservable, observable } from '../src'
+import { Computed, isComputed, makeObservable, Observable } from '../src'
 
 describe('computed decorator', () => {
   it('updates the computed properties', () => {
     class Calculator {
-      @observable
+      @Observable
       a = 0
 
-      @observable
+      @Observable
       b = 0
 
-      @computed
+      @Computed
       get result() {
         return this.a + this.b
       }
@@ -42,7 +42,7 @@ describe('computed decorator', () => {
   it('should throw an error when signature is not a getter', () => {
     class Calculator {
       // @ts-expect-error Unable to resolve signature of property decorator when called as an expression
-      @computed
+      @Computed
       a = 0
 
       constructor() {
@@ -56,15 +56,15 @@ describe('computed decorator', () => {
 
 describe('isComputed', () => {
   class Calculator {
-    @observable
+    @Observable
     a = 0
 
-    @observable
+    @Observable
     b = 0
 
     c = 0
 
-    @computed
+    @Computed
     get result() {
       return this.a + this.b
     }
@@ -77,11 +77,11 @@ describe('isComputed', () => {
   const calculator = new Calculator()
 
   it('should return true when the decorator is computed', () => {
-    expect(isComputed(computed)).toBe(true)
+    expect(isComputed(Computed)).toBe(true)
   })
 
   it('should return false when the decorator is not computed', () => {
-    expect(isComputed(observable)).toBe(false)
+    expect(isComputed(Observable)).toBe(false)
   })
 
   it('should return true when the key in the object is observable', () => {

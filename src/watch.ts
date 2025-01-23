@@ -88,20 +88,20 @@ function createWatchDecorator<
   }
 }
 
-export function watch<
+export function Watch<
   TTarget extends object,
   TKey extends keyof TTarget,
   TValue = TTarget[TKey],
   TCallback extends WatchCallback<TValue> = WatchCallback<TValue>,
 >(source: TKey, options?: WatchOptions): ClassMethodDecorator<TTarget, TCallback>
 
-export function watch<
+export function Watch<
   TTarget extends object,
   TValue,
   TCallback extends WatchCallback<TValue> = WatchCallback<TValue>,
 >(source: ((this: TTarget) => TValue), options?: WatchOptions): ClassMethodDecorator<TTarget, TCallback>
 
-export function watch<
+export function Watch<
   TTarget extends object,
   TKey extends keyof TTarget,
   TValue = TTarget[TKey],

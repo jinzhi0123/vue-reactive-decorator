@@ -48,7 +48,7 @@ function make(target: any, key: PropertyKey, descriptor: PropertyDescriptor) {
   })
 }
 
-export const computed = createDecorator<ClassGetterDecorator>({
+export const Computed = createDecorator<ClassGetterDecorator>({
   decoratorType: COMPUTED,
   make,
 })

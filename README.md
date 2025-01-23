@@ -72,16 +72,16 @@ Put the provided reactive decorators on your class properties and call `makeObse
 
 ```typescript
 import { watchSyncEffect } from 'vue'
-import { computed, makeObservable, observable } from 'vue-reactive-decorator'
+import { Computed, makeObservable, Observable } from 'vue-reactive-decorator'
 
 class Order {
-  @observable
+  @Observable
   price = 0
 
-  @observable
+  @Observable
   quantity = 0
 
-  @computed
+  @Computed
   get total() {
     return this.price * this.quantity
   }
@@ -126,17 +126,17 @@ console.log(numbers.total) // 20
 
 **Notice**: The documentation is **under construction**, you can refer to the source code for more details.
 
-### `@observable`
+### `@Observable`
 
 Marks a property as observable(ref).
 
 When you call `makeObservable(this)` ,the getter and setter of the property will be replaced with a proxy, and the property will be reactive.
 
 ```typescript
-import { observable } from 'vue-reactive-decorator'
+import { makeObservable, Observable } from 'vue-reactive-decorator'
 
 class Order {
-  @observable
+  @Observable
   price = 0
 
   constructor() {
@@ -145,7 +145,7 @@ class Order {
 }
 ```
 
-The inner implementation of `@observable` just like the following code:
+The inner implementation of `@Observable` just like the following code:
 
 ```typescript
 import { ref } from 'vue'
@@ -166,21 +166,21 @@ Object.defineProperty(order, 'price', {
 })
 ```
 
-### `@observable.ref`
+### `@Observable.ref`
 
-the same as `@observable`.
+the same as `@Observable`.
 
-### `@observable.reactive`
+### `@Observable.reactive`
 
 Marks a property as reactive.
 
 When you call `makeObservable(this)` ,the getter and setter of the property will be replaced with reactive proxy, and the property will be reactive.
 
 ```typescript
-import { observable } from 'vue-reactive-decorator'
+import { makeObservable, Observable } from 'vue-reactive-decorator'
 
 class Order {
-  @observable.reactive
+  @Observable.reactive
   items = {
     apple: 0,
     orange: 0,
@@ -207,7 +207,7 @@ console.log(items.apple) // 1
 
 **Notice**: The same as `reactive` in vue, it will lose reactivity when the marked property is assigned to a new object.
 
-### `@observable.shallowRef`
+### `@Observable.shallowRef`
 
 Marks a property as shallowRef.
 
@@ -216,10 +216,10 @@ When you call `makeObservable(this)` ,the getter and setter of the property will
 The behavior is same as `shallowRef` in vue. Unlike `ref()`, the inner value of a shallow ref is stored and exposed as-is, and will not be made deeply reactive. Only the top-level access is reactive.
 
 ```typescript
-import { observable } from 'vue-reactive-decorator'
+import { makeObservable, Observable } from 'vue-reactive-decorator'
 
 class Order {
-  @observable.shallowRef
+  @Observable.shallowRef
   items = {
     apple: 0,
     orange: 0,
@@ -242,7 +242,7 @@ order.items = { apple: 1, orange: 1 }
 console.log(items) // { apple: 1, orange: 1 }
 ```
 
-### `@observable.shallowReactive`
+### `@Observable.shallowReactive`
 
 Marks a property as shallowReactive.
 
@@ -251,10 +251,10 @@ When you call `makeObservable(this)` ,the getter and setter of the property will
 The behavior is same as `shallowReactive` in vue. Unlike `reactive()`, there is no deep conversion: only root-level properties are reactive for a shallow reactive object. Property values are stored and exposed as-is - this also means properties with ref values will **not** be automatically unwrapped.
 
 ```typescript
-import { observable } from 'vue-reactive-decorator'
+import { makeObservable, Observable } from 'vue-reactive-decorator'
 
 class Order {
-  @observable.shallowReactive
+  @Observable.shallowReactive
   items = {
     apple: 0,
     orange: 0,
@@ -286,23 +286,23 @@ console.log(items.apple) // 1
 
 **Notice**: The same as `shallowReactive` in vue, it will lose reactivity when the marked property is assigned to a new object.
 
-### `@computed`
+### `@Computed`
 
 Marks a getter method as a computed property.
 
 The behavior is similar to `computed` in vue.
 
 ```typescript
-import { computed } from 'vue-reactive-decorator'
+import { Computed, makeObservable, Observable } from 'vue-reactive-decorator'
 
 class Order {
-  @observable
+  @Observable
   price = 0
 
-  @observable
+  @Observable
   quantity = 0
 
-  @computed
+  @Computed
   get total() {
     return this.price * this.quantity
   }
@@ -313,25 +313,25 @@ class Order {
 }
 ```
 
-### `@watchEffect`
+### `@WatchEffect`
 
 Marks a method as a watcher.
 
 The behavior is similar to `watchEffect` in vue. When the properties used in the method are changed, the method will be called.
 
 ```typescript
-import { nextTick, watchEffect } from 'vue-reactive-decorator'
+import { makeObservable, Observable, WatchEffect } from 'vue-reactive-decorator'
 
 class Order {
-  @observable
+  @Observable
   price = 0
 
-  @observable
+  @Observable
   quantity = 0
 
   total = 0
 
-  @watchEffect
+  @WatchEffect
   effect() {
     this.total = this.price * this.quantity
   }
@@ -353,25 +353,25 @@ nextTick(() => { // wait for the effect to be called
 })
 ```
 
-### `@watchSyncEffect`
+### `@WatchSyncEffect`
 
 Marks a method as a synchronous watcher.
 
 The behavior is similar to `watchSyncEffect` in vue. When the properties used in the method are changed, the method will be called.
 
 ```typescript
-import { watchSyncEffect } from 'vue-reactive-decorator'
+import { makeObservable, Observable, WatchSyncEffect } from 'vue-reactive-decorator'
 
 class Order {
-  @observable
+  @Observable
   price = 0
 
-  @observable
+  @Observable
   quantity = 0
 
   total = 0
 
-  @watchSyncEffect
+  @WatchSyncEffect
   effect() {
     this.total = this.price * this.quantity
   }
@@ -389,7 +389,7 @@ order.quantity = 2
 console.log(order.total) // 20
 ```
 
-### `@watch`
+### `@Watch`
 
 Marks a method as a watcher callback.
 
@@ -398,14 +398,14 @@ The behavior is similar to `watch` in vue. When the observable properties are ch
 type definition:
 
 ```typescript
-export function watch<
+export function Watch<
   TTarget extends object,
   TKey extends keyof TTarget,
   TValue = TTarget[TKey],
   TCallback extends WatchCallback<TValue> = WatchCallback<TValue>,
 >(source: TKey, options?: WatchOptions): ClassMethodDecorator<TTarget, TCallback>
 
-export function watch<
+export function Watch<
   TTarget extends object,
   TValue,
   TCallback extends WatchCallback<TValue> = WatchCallback<TValue>,
@@ -420,18 +420,18 @@ Parameters:
 If you want to watch a observable property of the class, you can use the following code:
 
 ```typescript
-import { watch } from 'vue-reactive-decorator'
+import { makeObservable, Observable, Watch } from 'vue-reactive-decorator'
 
 class Order {
-  @observable
+  @Observable
   price = 10
 
-  @observable
+  @Observable
   quantity = 0
 
   total = 0
 
-  @watch('quantity')
+  @Watch('quantity')
   callback(newVal: number, oldVal: number) {
     this.total = this.price * newVal
   }
@@ -447,23 +447,23 @@ order.quantity = 2
 console.log(order.total) // 20
 ```
 
-**Notice**: The `@watch` decorator is type-safe, the newVal and observed property(`newVal` parameter of the callback and the `quantity` parameter of the decorator in the example) must have the same type.
+**Notice**: The `@Watch` decorator is type-safe, the newVal and observed property(`newVal` parameter of the callback and the `quantity` parameter of the decorator in the example) must have the same type.
 
 You can also take a getter method as the source:
 
 ```typescript
-import { watch } from 'vue-reactive-decorator'
+import { makeObservable, Observable, Watch } from 'vue-reactive-decorator'
 
 class Order {
-  @observable
+  @Observable
   price = 10
 
-  @observable
+  @Observable
   quantity = 0
 
   total = 0
 
-  @watch(function () { return this.price * this.quantity })
+  @Watch(function () { return this.price * this.quantity })
   callback(newVal: number) {
     this.total = newVal
   }
@@ -481,7 +481,7 @@ console.log(order.total) // 40
 ```
 
 **Notice**:
-- The `@watch` decorator is type-safe, the newVal and observed property(`newVal` parameter of the callback and the return type of the getter method in the example) must have the same type.
+- The `@Watch` decorator is type-safe, the newVal and observed property(`newVal` parameter of the callback and the return type of the getter method in the example) must have the same type.
 - **The getter method must be a normal function, you can't use a arrow function because the `this` context is not bound to the class instance.**
 
 ## Thanks

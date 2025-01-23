@@ -1,18 +1,18 @@
 import { nextTick } from 'vue-demi'
-import { makeObservable, observable, watch } from '../src'
+import { makeObservable, Observable, Watch } from '../src'
 
 describe('watch decorator', () => {
   it('should trigger the effect method when the observable properties change with the source of a getter', () => {
     class Order {
-      @observable
+      @Observable
       price = 0
 
-      @observable
+      @Observable
       quantity = 0
 
       total = 0
 
-      @watch(function () { return this.price * this.quantity })
+      @Watch(function () { return this.price * this.quantity })
       effect(value: number) {
         this.total = value
       }
@@ -33,17 +33,17 @@ describe('watch decorator', () => {
 
   it('should trigger the effect method when the observable properties change with the source of observable key', () => {
     class Order {
-      @observable
+      @Observable
       price = 0
 
-      @observable
+      @Observable
       quantity = 2
 
       total = 0
 
       str = 'price'
 
-      @watch('price')
+      @Watch('price')
       effect(value: number) {
         this.total = value * this.quantity
       }
@@ -63,15 +63,15 @@ describe('watch decorator', () => {
 
   it('should throw an error when the source is not observable', () => {
     class Order {
-      @observable
+      @Observable
       price = 0
 
-      @observable
+      @Observable
       quantity = 0
 
       total = 0
 
-      @watch('total')
+      @Watch('total')
       effect(value: number) {
         this.total = value
       }
@@ -90,15 +90,15 @@ describe('watch decorator', () => {
 describe('watch decorator with options', () => {
   it('should trigger the effect method once when once is true', () => {
     class Order {
-      @observable
+      @Observable
       price = 0
 
-      @observable
+      @Observable
       quantity = 1
 
       total = 0
 
-      @watch('price', { once: true })
+      @Watch('price', { once: true })
       effect(value: number) {
         this.total = value
       }

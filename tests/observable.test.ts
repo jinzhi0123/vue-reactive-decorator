@@ -1,16 +1,16 @@
 import { isReactive, watchSyncEffect } from 'vue-demi'
-import { computed, isObservable, makeObservable, observable } from '../src'
+import { Computed, isObservable, makeObservable, Observable } from '../src'
 
 describe('observable decorator', () => {
   it('updates the observable properties', () => {
     class Calculator {
-      @observable
+      @Observable
       a = 0
 
-      @observable
+      @Observable
       b = 0
 
-      @observable
+      @Observable
       result = 0
 
       addA() {
@@ -63,7 +63,7 @@ describe('observable decorator', () => {
 
   it('updates the observable object properties', () => {
     class Order {
-      @observable
+      @Observable
       items = {
         apple: 0,
         orange: 0,
@@ -99,7 +99,7 @@ describe('observable decorator', () => {
 
   it('updates the observable array properties', () => {
     class Order {
-      @observable
+      @Observable
       items: string[] = []
 
       constructor() {
@@ -124,7 +124,7 @@ describe('observable decorator', () => {
   it('should throw an error when signature is not a property', () => {
     class Order {
       // @ts-expect-error unable to resolve signature of method decorator when called as an expression.
-      @observable
+      @Observable
       print() {
         console.log('print')
       }
@@ -142,7 +142,7 @@ describe('observable decorator', () => {
 describe('observable.shallowRef decorator', () => {
   it('updates when the property object self changes (.value access is reactive)', () => {
     class Order {
-      @observable.shallowRef
+      @Observable.shallowRef
       items = {
         apple: 0,
         orange: 0,
@@ -168,7 +168,7 @@ describe('observable.shallowRef decorator', () => {
 
   it('does not update when the properties of the marked property change (the inner level of the .value access is not reactive)', () => {
     class Order {
-      @observable.shallowRef
+      @Observable.shallowRef
       items = {
         apple: 0,
         orange: 0,
@@ -202,7 +202,7 @@ describe('observable.shallowRef decorator', () => {
 describe('observable.reactive decorator', () => {
   it('updates when the root-level properties change (the root-level properties are reactive) ', () => {
     class Order {
-      @observable.reactive
+      @Observable.reactive
       items = {
         apple: 0,
         orange: 0,
@@ -234,7 +234,7 @@ describe('observable.reactive decorator', () => {
 
   it('updates when the inner-level properties change (the inner-level are reactive)', () => {
     class Order {
-      @observable.reactive
+      @Observable.reactive
       items = {
         fruits: {
           apple: 0,
@@ -270,7 +270,7 @@ describe('observable.reactive decorator', () => {
 
   it('lose reactivity when the marked property is assigned to a new object', () => {
     class Order {
-      @observable.reactive
+      @Observable.reactive
       items = {
         apple: 0,
         orange: 0,
@@ -301,7 +301,7 @@ describe('observable.reactive decorator', () => {
 describe('observable.shallowReactive decorator', () => {
   it('updates when the root-level properties change (the root-level properties are reactive) ', () => {
     class Order {
-      @observable.shallowReactive
+      @Observable.shallowReactive
       items = {
         apple: 0,
         orange: 0,
@@ -333,7 +333,7 @@ describe('observable.shallowReactive decorator', () => {
 
   it('does not update when the inner-level properties change (the inner-level are not reactive)', () => {
     class Order {
-      @observable.shallowReactive
+      @Observable.shallowReactive
       items = {
         fruits: {
           apple: 0,
@@ -367,7 +367,7 @@ describe('observable.shallowReactive decorator', () => {
 
   it('lose reactive when the marked property is assigned to a new object', () => {
     class Order {
-      @observable.shallowReactive
+      @Observable.shallowReactive
       items = {
         apple: 0,
         orange: 0,
@@ -397,12 +397,12 @@ describe('observable.shallowReactive decorator', () => {
 
 describe('isObservable', () => {
   class Order {
-    @observable
+    @Observable
     price = 0
 
     quantity = 0
 
-    @computed
+    @Computed
     get total() {
       return this.price * this.quantity
     }
@@ -415,11 +415,11 @@ describe('isObservable', () => {
   const order = new Order()
 
   it('should return true when the decorator is observable', () => {
-    expect(isObservable(observable)).toBe(true)
+    expect(isObservable(Observable)).toBe(true)
   })
 
   it('should return false when the decorator is not observable', () => {
-    expect(isObservable(computed)).toBe(false)
+    expect(isObservable(Computed)).toBe(false)
   })
 
   it('should return true when the key in the object is observable', () => {

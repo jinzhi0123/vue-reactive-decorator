@@ -1,18 +1,18 @@
 import { nextTick } from 'node:process'
-import { isWatchEffect, makeObservable, observable, watchEffect, watchSyncEffect } from '../src'
+import { isWatchEffect, makeObservable, Observable, WatchEffect, WatchSyncEffect } from '../src'
 
 describe('watchEffect decorator', () => {
   it('trigger the effect method nextTick when the observable properties change', () => {
     class Order {
-      @observable
+      @Observable
       price = 0
 
-      @observable
+      @Observable
       quantity = 0
 
       total = 0
 
-      @watchEffect
+      @WatchEffect
       effect() {
         this.total = this.price * this.quantity
       }
@@ -33,15 +33,15 @@ describe('watchEffect decorator', () => {
 
   it('does not trigger right away till nickTick', () => {
     class Order {
-      @observable
+      @Observable
       price = 0
 
-      @observable
+      @Observable
       quantity = 0
 
       total = 0
 
-      @watchEffect
+      @WatchEffect
       effect() {
         this.total = this.price * this.quantity
       }
@@ -61,7 +61,7 @@ describe('watchEffect decorator', () => {
   it('should throw an error when signature is not a method', () => {
     class Order {
       // @ts-expect-error Unable to resolve signature of method decorator when called as an expression
-      @watchEffect
+      @WatchEffect
       price = 0
 
       constructor() {
@@ -76,15 +76,15 @@ describe('watchEffect decorator', () => {
 describe('watchSyncEffect decorator', () => {
   it('trigger the effect method right away when the observable properties change', () => {
     class Order {
-      @observable
+      @Observable
       price = 0
 
-      @observable
+      @Observable
       quantity = 0
 
       total = 0
 
-      @watchSyncEffect
+      @WatchSyncEffect
       effect() {
         this.total = this.price * this.quantity
       }
@@ -104,7 +104,7 @@ describe('watchSyncEffect decorator', () => {
   it('should throw an error when signature is not a method', () => {
     class Order {
       // @ts-expect-error Unable to resolve signature of method decorator when called as an expression
-      @watchSyncEffect
+      @WatchSyncEffect
       price = 0
 
       constructor() {
@@ -118,15 +118,15 @@ describe('watchSyncEffect decorator', () => {
 
 describe('isWatchEffect', () => {
   class Order {
-    @observable
+    @Observable
     price = 0
 
-    @observable
+    @Observable
     quantity = 0
 
     total = 0
 
-    @watchEffect
+    @WatchEffect
     effect() {
       this.total = this.price * this.quantity
     }
@@ -139,12 +139,12 @@ describe('isWatchEffect', () => {
   const order = new Order()
 
   it('should return true when the decorator is watchEffect', () => {
-    expect(isWatchEffect(watchEffect)).toBe(true)
-    expect(isWatchEffect(watchSyncEffect)).toBe(true)
+    expect(isWatchEffect(WatchEffect)).toBe(true)
+    expect(isWatchEffect(WatchSyncEffect)).toBe(true)
   })
 
   it('should return false when the decorator is not watchEffect', () => {
-    expect(isWatchEffect(observable)).toBe(false)
+    expect(isWatchEffect(Observable)).toBe(false)
   })
 
   it('should return true when the key in the object is watchEffect', () => {

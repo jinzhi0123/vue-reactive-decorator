@@ -16,7 +16,7 @@ function make(target: any, key: PropertyKey, descriptor: PropertyDescriptor) {
   })
 }
 
-export const override = createDecorator<ClassFieldDecorator>({
+export const Override = createDecorator<ClassFieldDecorator>({
   decoratorType: OVERRIDE,
   make,
 })

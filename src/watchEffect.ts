@@ -45,14 +45,14 @@ function make(target: any, key: PropertyKey, descriptor: PropertyDescriptor, opt
   }
 }
 
-export const watchEffect = createDecorator<ClassMethodDecorator>(
+export const WatchEffect = createDecorator<ClassMethodDecorator>(
   createWatchEffectDecorator(
     WATCH_EFFECT,
     { sync: false },
   ),
 )
 
-export const watchSyncEffect = createDecorator<ClassMethodDecorator>(
+export const WatchSyncEffect = createDecorator<ClassMethodDecorator>(
   createWatchEffectDecorator(
     WATCH_SYNC_EFFECT,
     { sync: true },

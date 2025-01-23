@@ -89,7 +89,7 @@ const observableFactories: IObservableFactory = {
   reactive: createDecorator(observableReactiveDecorator),
 } as any
 
-export const observable: IObservableFactory = Object.assign(_observable, observableFactories)
+export const Observable: IObservableFactory = Object.assign(_observable, observableFactories)
 
 /*
 Considering two schemes:
