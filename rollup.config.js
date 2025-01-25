@@ -4,7 +4,7 @@ import dts from 'rollup-plugin-dts'
 
 export default [{
   input: './src/index.ts',
-  external: ['vue', 'vue-demi'],
+  external: ['@vue/reactivity'],
   plugins: [
     replace({
       preventAssignment: true,
@@ -28,7 +28,7 @@ export default [{
   ],
 }, {
   input: './src/index.ts',
-  external: ['vue', 'vue-demi'],
+  external: ['@vue/reactivity'],
   plugins: [
     dts({
       compilerOptions: {

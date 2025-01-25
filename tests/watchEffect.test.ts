@@ -1,5 +1,5 @@
-import { nextTick } from 'node:process'
 import { isWatchEffect, makeObservable, Observable, WatchEffect, WatchSyncEffect } from '../src'
+import { nextTick } from '../src/scheduler'
 
 describe('watchEffect decorator', () => {
   it('trigger the effect method nextTick when the observable properties change', () => {

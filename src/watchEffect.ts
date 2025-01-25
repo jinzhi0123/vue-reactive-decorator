@@ -1,9 +1,9 @@
 import type { ReactiveDecorator } from './decorator'
 import type { ClassMethodDecorator } from './decorator-fills'
-import { watchEffect as vWatchEffect, watchSyncEffect as vWatchSyncEffect } from 'vue-demi'
 import { createDecoratorTypeChecker } from './adm'
 import { createDecorator } from './decorator'
 import { getEffectScope } from './effectScope'
+import { watchEffect as vWatchEffect, watchSyncEffect as vWatchSyncEffect } from './reactivity'
 
 const WATCH_EFFECT = 'watchEffect'
 

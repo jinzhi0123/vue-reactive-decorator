@@ -1,5 +1,5 @@
-import { nextTick } from 'vue-demi'
 import { makeObservable, Observable, Watch } from '../src'
+import { nextTick } from '../src/scheduler'
 
 describe('watch decorator', () => {
   it('should trigger the effect method when the observable properties change with the source of a getter', () => {

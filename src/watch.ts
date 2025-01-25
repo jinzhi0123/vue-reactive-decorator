@@ -1,6 +1,6 @@
-import type { WatchCallback, WatchOptions } from 'vue-demi'
+import type { WatchCallback, WatchOptions } from '@vue/reactivity'
 import type { ClassMethodDecorator } from './decorator-fills'
-import { watch as vWatch } from 'vue-demi'
+import { watch as vWatch } from '@vue/reactivity'
 import { createDecoratorTypeChecker } from './adm'
 import { createDecorator, type ReactiveDecorator } from './decorator'
 import { getEffectScope } from './effectScope'

@@ -52,3 +52,12 @@ export function getDescriptor(target: any, key: PropertyKey): PropertyDescriptor
 
   return undefined
 }
+
+// eslint-disable-next-line ts/no-unsafe-function-type
+export function isFunction(val: any): val is Function {
+  return typeof val === 'function'
+}
+
+export function isArray<T = any>(val: any): val is T[] {
+  return Array.isArray(val)
+}

@@ -1,5 +1,5 @@
-import type { EffectScope } from 'vue-demi'
-import { effectScope } from 'vue-demi'
+import type { EffectScope } from '@vue/reactivity'
+import { effectScope } from '@vue/reactivity'
 import { addHiddenProp, hasProp } from './utils'
 
 const STORED_EFFECT_SCOPE_KEY = Symbol('VUE_REACTIVE_STORED_EFFECT_SCOPE')

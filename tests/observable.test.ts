@@ -1,5 +1,6 @@
-import { isReactive, watchSyncEffect } from 'vue-demi'
+import { isReactive } from '@vue/reactivity'
 import { Computed, isObservable, makeObservable, Observable } from '../src'
+import { watchSyncEffect } from '../src/reactivity'
 
 describe('observable decorator', () => {
   it('updates the observable properties', () => {

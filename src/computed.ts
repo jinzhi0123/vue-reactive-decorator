@@ -1,5 +1,5 @@
 import type { ClassGetterDecorator } from './decorator-fills'
-import { computed as vComputed } from 'vue-demi'
+import { computed as vComputed } from '@vue/reactivity'
 import { createDecoratorTypeChecker } from './adm'
 import { createDecorator, type ReactiveDecorator } from './decorator'
 import { getEffectScope } from './effectScope'

@@ -1,7 +1,7 @@
-import type { Ref, ShallowRef } from 'vue-demi'
+import type { Ref, ShallowRef } from '@vue/reactivity'
 import type { ReactiveDecorator } from './decorator'
 import type { ClassFieldDecorator } from './decorator-fills'
-import { reactive, ref, shallowReactive, shallowRef } from 'vue-demi'
+import { reactive, ref, shallowReactive, shallowRef } from '@vue/reactivity'
 import { createDecoratorTypeChecker } from './adm'
 import { createDecorator } from './decorator'
 

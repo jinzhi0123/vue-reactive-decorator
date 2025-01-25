@@ -1,5 +1,5 @@
-import { watchSyncEffect } from 'vue-demi'
 import { Computed, isComputed, makeObservable, Observable } from '../src'
+import { watchSyncEffect } from '../src/reactivity'
 
 describe('computed decorator', () => {
   it('updates the computed properties', () => {
