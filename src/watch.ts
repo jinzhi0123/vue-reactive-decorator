@@ -1,10 +1,10 @@
 import type { WatchCallback, WatchOptions } from '@vue/reactivity'
 import type { ClassMethodDecorator } from './decorator-fills'
-import { watch as vWatch } from '@vue/reactivity'
 import { createDecoratorTypeChecker } from './adm'
 import { createDecorator, type ReactiveDecorator } from './decorator'
 import { getEffectScope } from './effectScope'
 import { isObservable } from './observable'
+import { watch } from './reactivity'
 
 const WATCH = 'watch'
 
@@ -60,7 +60,7 @@ function make<
 
   if (typeof source == 'function') {
     effectScope.run(() => {
-      vWatch(source, callback, watchOptions)
+      watch(source, callback, watchOptions)
     })
   }
   else if (typeof source == 'string' || typeof source == 'symbol' || typeof source == 'number') {
@@ -71,7 +71,7 @@ function make<
       throw new Error(`@watch source '${source.toString()}' is not observable.`)
     }
     effectScope.run(() => {
-      vWatch(() => target[source], callback, watchOptions)
+      watch(() => target[source], callback, watchOptions)
     })
   }
 }
