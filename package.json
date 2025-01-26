@@ -16,30 +16,34 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
-    }
+      "types": "./dist/vue-reactive-reactive.d.ts",
+      "node": {
+        "production": "./dist/vue-reactive-reactive.production.cjs",
+        "development": "./dist/vue-reactive-reactive.development.cjs",
+        "default": "./index.js"
+      },
+      "module": "./dist/vue-reactive-reactive.development.mjs",
+      "import": "./dist/vue-reactive-reactive.development.mjs",
+      "require": "./index.js"
+    },
+    "./*": "./*"
   },
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "typesVersions": {
-    "*": {
-      "*": [
-        "./dist/*",
-        "./dist/index.d.ts"
-      ]
-    }
-  },
+  "main": "dist/index.js",
+  "module": "dist/vue-reactive-reactive.production.mjs",
+  "types": "dist/vue-reactive-reactive.d.ts",
   "files": [
-    "dist"
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md",
+    "dist",
+    "src"
   ],
   "scripts": {
-    "build": "rollup -c",
+    "clean": "rimraf dist",
+    "build": "nr clean && rollup -c",
     "watch": "rollup -cw",
-    "start": "node ./dist/index.cjs",
-    "dev": "concurrently \"pnpm watch\" \"cross-env NODE_ENV=development nodemon --watch dist --ext cjs --exec pnpm start\"",
+    "start": "node ./dist/vue-reactive-reactive.development.cjs",
+    "dev": "concurrently \"nr watch\" \"cross-env NODE_ENV=development nodemon --watch dist --ext cjs --exec pnpm start\"",
     "test": "jest",
     "lint": "eslint .",
     "prepublishOnly": "nr build",
@@ -58,10 +62,12 @@
     "@babel/core": "^7.26.0",
     "@babel/plugin-proposal-decorators": "^7.25.9",
     "@babel/plugin-transform-class-properties": "^7.25.9",
+    "@babel/plugin-transform-class-static-block": "^7.26.0",
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-typescript": "^7.26.0",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-replace": "^6.0.2",
+    "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.1.2",
     "@types/jest": "^29.5.14",
     "@types/node": "^20.10.7",
