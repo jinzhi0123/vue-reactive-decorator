@@ -1,5 +1,5 @@
 import type { ClassGetterDecorator } from './decorator-fills'
-import { computed as vComputed } from '@vue/reactivity'
+import { computed } from '@vue/reactivity'
 import { createDecoratorTypeChecker } from './adm'
 import { createDecorator, type ReactiveDecorator } from './decorator'
 import { getEffectScope } from './effectScope'
@@ -30,7 +30,7 @@ function make(target: any, key: PropertyKey, descriptor: PropertyDescriptor) {
   const effectScope = getEffectScope(target)
 
   const value = effectScope.run(() =>
-    vComputed(
+    computed(
       {
         get: descriptor.get!.bind(target),
         set: descriptor.set?.bind(target) ?? NOOP,

@@ -3,7 +3,7 @@ import type { ClassMethodDecorator } from './decorator-fills'
 import { createDecoratorTypeChecker } from './adm'
 import { createDecorator } from './decorator'
 import { getEffectScope } from './effectScope'
-import { watchEffect as vWatchEffect, watchSyncEffect as vWatchSyncEffect } from './reactivity'
+import { watchEffect, watchSyncEffect } from './reactivity'
 
 const WATCH_EFFECT = 'watchEffect'
 
@@ -35,12 +35,12 @@ function make(target: any, key: PropertyKey, descriptor: PropertyDescriptor, opt
 
   if (options.sync) {
     effectScope.run(() => {
-      vWatchSyncEffect(descriptor.value.bind(target))
+      watchSyncEffect(descriptor.value.bind(target))
     })
   }
   else {
     effectScope.run(() => {
-      vWatchEffect(descriptor.value.bind(target))
+      watchEffect(descriptor.value.bind(target))
     })
   }
 }
