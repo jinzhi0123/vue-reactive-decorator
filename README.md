@@ -1,10 +1,14 @@
 # vue-reactive-decorator
 
-Provides mobx-like reactive decorator with OOP style for Vue 2 (composition-api) and Vue 3.
+Provides mobx-like reactive decorator with OOP style for vue or other libs/projects using `@vue/reactivity`.
 
 Supports legacy decorator syntax and stage 3 decorators proposal.
 
+As of `v2.0.0`, this library depends on `@vue/reactivity` instead of `vue-demi` and no longer supports Vue 2.
+
 ## Installation
+
+`vue-reactive-decorator` uses `@vue/reactivity` as a peer dependency, so you need to install either a library that depends on it (such as `vue` or `vue-mini`) or `@vue/reactivity` itself.
 
 ```bash
 npm install vue-reactive-decorator --save
