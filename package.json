@@ -1,7 +1,7 @@
 {
   "name": "vue-reactive-decorator",
   "type": "module",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "packageManager": "pnpm@8.14.0",
   "description": "Provides mobx-like reactive decorator with OOP style for Vue 2 (composition-api) and Vue 3. 提供mobx6风格的vue响应式装饰器。",
   "author": "jinzhi0123 <jinzhi0123@yeah.net>",
