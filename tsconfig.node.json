@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "composite": true
+  },
+  "include": [
+    "jest.setup.ts",
+    "jest.config.ts",
+    "global.d.ts"
+  ]
+}
