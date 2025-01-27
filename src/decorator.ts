@@ -22,7 +22,7 @@ export function createDecorator<D extends Decorator = Decorator>(
   decorator: ReactiveDecorator,
 ): PropertyDecorator & ReactiveDecorator & D {
   function _decorator(arg1: any, arg2: any) {
-    if (is2023Decorator(arg2)) {
+    if (is2023DecoratorByContext(arg2)) {
       const [value, context] = [arg1, arg2]
       if (DECORATOR_VERSION === undefined)
         DECORATOR_VERSION = '2023'
@@ -47,7 +47,6 @@ export function isReactiveDecorator(thing: any): thing is ReactiveDecorator {
     && typeof thing.decoratorType === 'string'
   )
 }
-
 export function assert20223DecoratorType(
   context: DecoratorContext,
   types: DecoratorContext['kind'][],
@@ -61,10 +60,15 @@ export function assert20223DecoratorType(
   }
 }
 
-export function is2023Decorator(context: any): context is DecoratorContext {
+export function is2023DecoratorByContext(context: any): context is DecoratorContext {
   return typeof context == 'object' && typeof context.kind == 'string'
 }
 
-export function is2023DecoratorAfterRunning() {
+export function is2023Decorator() {
+  if (DECORATOR_VERSION === undefined) {
+    if (__DEV__) {
+      throw new Error('No decorator has been applied yet before calling is2023Decorator. Should be called after any decorator is applied.')
+    }
+  }
   return DECORATOR_VERSION === '2023'
 }

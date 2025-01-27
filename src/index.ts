@@ -14,7 +14,7 @@ export {
 } from './computed'
 
 export {
-  is2023DecoratorAfterRunning as is2023Decorator,
+  is2023Decorator,
   isReactiveDecorator,
   ReactiveDecorator,
 } from './decorator'
