@@ -20,8 +20,8 @@ export {
 } from './decorator'
 
 export {
-  makeObservable,
-} from './makeObservable'
+  getEffectScope,
+} from './effectScope'
 
 // export {
 //   isOverride,
@@ -29,10 +29,27 @@ export {
 // } from './override'
 
 export {
+  makeObservable,
+} from './makeObservable'
+
+export {
   IObservableFactory,
   isObservable,
   Observable,
 } from './observable'
+
+export {
+  OnCleanup,
+  WatchCallback,
+  WatchHandle,
+  WatchOptions,
+  WatchSource,
+  WatchStopHandle,
+} from './reactivity'
+
+export {
+  nextTick,
+} from './scheduler'
 
 export {
   isWatch,
