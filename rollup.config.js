@@ -23,7 +23,9 @@ function createConfig(isProduction) {
         '__DEV__': !isProduction,
         'process.env.NODE_ENV': JSON.stringify(isProduction ? 'production' : 'development'),
       }),
-      typescript(),
+      typescript({
+        tsconfig: './tsconfig.lib.json',
+      }),
       isProduction && terser(),
     ].filter(Boolean),
     output: [
